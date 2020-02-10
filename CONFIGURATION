@@ -1,0 +1,25 @@
+#!/bin/bash
+#################################################################################
+# PLEASE READ THE README FILE BEFORE EDITING THIS FILE !
+#################################################################################
+
+
+export LEDGERSMB_HOSTNAME=ledgersmb.example.com
+export LEDGERSMB_LSMB_DBADMIN_PASS=testing1234
+export LEDGERSMB_LETENCRYPTS_EMAILADDR="ledgersmb@example.com"
+export LEDGERSMB_LETENCRYPTS_C="CA"
+export LEDGERSMB_LETENCRYPTS_ST="Quebec"
+export LEDGERSMB_LETENCRYPTS_L="Montreal"
+export LEDGERSMB_LETENCRYPTS_O="Accouting"
+export LEDGERSMB_LETENCRYPTS_OU="LedgerSMB"
+export INSTALLER_SLEEP_ON_BOOT="15"
+
+
+#################################################################################
+#################################################################################
+# DO NOT MODIFY ANYTHING BELOW (YOU SHOULDNT HAVE TO)
+#################################################################################
+#################################################################################
+
+export LEDGERSMB_HOSTNAME_AUTOWWW=www.$LEDGERSMB_HOSTNAME
+export LEDGERSMB_SSL_PARAMETERS="/C=$LEDGERSMB_LETENCRYPTS_C/ST=$LEDGERSMB_LETENCRYPTS_ST/L=$LEDGERSMB_LETENCRYPTS_L/O=$LEDGERSMB_LETENCRYPTS_O/OU=$LEDGERSMB_LETENCRYPTS_OU/CN=$LEDGERSMB_HOSTNAME"

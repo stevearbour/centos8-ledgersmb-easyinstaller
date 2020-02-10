@@ -1,0 +1,35 @@
+#################################################################################
+# 
+# CentOS 8 LedgerSMB Easy Installer
+# By: STEVE ARBOUR 	Version: 1.0.0
+#################################################################################
+# 
+# STEP REQUIRED: 
+#
+# INSTALL CENTOS 8 - SERVER NO GUI
+# UNPACK THIS INSTALLER
+# EDIT THE FILE CONFIGURATION
+# MAKE THE INSTALLER EXECUTABLE (chmod ug+x install.sh)
+# LAUNCH THE INSTALLER (./install.sh)
+# 
+# THIS SCRIPT REQUIRE:
+#
+# - AN EXTERNAL IP ADDRESS
+# - A HOSTNAME THAT RESOLVE TO THAT IP ADDRESS
+# - AN EMAIL ADDRESS FOR LETSENCRYPT TO USE.
+#
+#################################################################################
+#
+# WARNING: DO NOT PUT WWW IN THE HOSTNAME
+# WE WANT TO USE example.com AND NOT www.example.com OR
+# WE WANT TO USE subdomain.example.com AND NOT www.subdomain.example.com
+#
+#################################################################################
+#
+# WARNING : Please do not touch or operate the system during the installation, "
+# it should reboot up to 5 times and may appear hanging out at boot because of "
+# a pause that I introduce at each boot sequence with sleep timer setting."
+# INSTALLER_SLEEP_ON_BOOT=15 
+# (Default 15 seconds, you can rise this setting for slow server)"
+#
+#################################################################################
