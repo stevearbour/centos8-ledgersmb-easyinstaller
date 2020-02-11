@@ -1,7 +1,10 @@
 #################################################################################
 # 
 # CentOS 8 LedgerSMB Easy Installer
-# By: STEVE ARBOUR 	Version: 1.0.0
+# 
+# By: STEVE ARBOUR 	
+# License: GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
+# 
 #################################################################################
 # 
 # STEP REQUIRED: 
@@ -18,18 +21,17 @@
 # - A HOSTNAME THAT RESOLVE TO THAT IP ADDRESS
 # - AN EMAIL ADDRESS FOR LETSENCRYPT TO USE.
 #
-#################################################################################
-#
-# WARNING: DO NOT PUT WWW IN THE HOSTNAME
-# WE WANT TO USE example.com AND NOT www.example.com OR
-# WE WANT TO USE subdomain.example.com AND NOT www.subdomain.example.com
-#
-#################################################################################
-#
-# WARNING : Please do not touch or operate the system during the installation, "
-# it should reboot up to 5 times and may appear hanging out at boot because of "
-# a pause that I introduce at each boot sequence with sleep timer setting."
-# INSTALLER_SLEEP_ON_BOOT=15 
-# (Default 15 seconds, you can rise this setting for slow server)"
+# 
+# Usage: install.sh <selinux_mode> <ipv6_mode>
+# 
+# Valid values for <selinux_mode> enforcing, permissive, disabled
+# Default is: enforcing
+# 
+# Valid values for <ipv6_mode> enabled, disabled
+# Default is: disabled
+# 
+# 
+# Ex: './install.sh' would default install with selinux enforcing configured and ipv6 disabled."
+# Ex: './install.sh disabled enabled' would install with selinux disabled and ipv6 enabled."
 #
 #################################################################################

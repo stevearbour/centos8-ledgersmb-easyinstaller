@@ -5,11 +5,10 @@ WORKING_INSTALLATION_PATH="`( cd \"$WORKING_INSTALLATION_PATH\" && pwd )`"
 . $WORKING_INSTALLATION_PATH/CONFIGURATION
 
 clear
-echo "*** PLEASE WAIT - INSTALLATION IN PROGRESS . . ."
 echo " "
-sleep $INSTALLER_SLEEP_ON_BOOT
-echo "*** INSTALLER STEP 5 INITIATED"
+echo "-> INSTALLER STEP 5 INITIATED : CPAN PACKAGES AND LEDGERSMB PART 2"
 echo " "
+sleep 3
 
 # CPAN INSTALLATION OF PACKAGES
 
@@ -99,20 +98,7 @@ cpan install Net::Server XML::Parser XML::SAX::Expat XML::Simple
 cpan install Plack::Middleware::Lint
 cpan install Carp
 
-
-
-# PREPARING NEXT BOOT
-sed -i '/step5.sh/d' /etc/rc.local
-cat >>/etc/rc.local <<EOL
 $WORKING_INSTALLATION_PATH/step6.sh
-EOL
 
-
-# REMOVE ENVIRONMENT CONFIGURATION
-. $WORKING_INSTALLATION_PATH/REMOVE_CONFIGURATION
-
-reboot
-
-
-# END OF SCRIPT
+# END OF SCRIPT - STEP 6
 

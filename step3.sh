@@ -5,11 +5,11 @@ WORKING_INSTALLATION_PATH="`( cd \"$WORKING_INSTALLATION_PATH\" && pwd )`"
 . $WORKING_INSTALLATION_PATH/CONFIGURATION
 
 clear
-echo "*** PLEASE WAIT - INSTALLATION IN PROGRESS . . ."
 echo " "
-sleep $INSTALLER_SLEEP_ON_BOOT
-echo "*** INSTALLER STEP 3 INITIATED"
+echo "-> INSTALLER STEP 3 INITIATED : PACKAGES AND NET/DB/LEDGERSMB SERVICE INSTALLATION PART 1"
 echo " "
+sleep 3
+
 
 # FIRST ROUND OF PACKAGES INSTALLATION
 dnf -y install nano gcc make wget git net-tools cpan cpanminus perl epel-release
@@ -71,18 +71,7 @@ cp /usr/local/ledgersmb/doc/conf/ledgersmb.conf.default /usr/local/ledgersmb/led
 cp /usr/local/ledgersmb/doc/conf/systemd/ledgersmb_starman.service /etc/systemd/system/
 
 
-# PREPARING NEXT BOOT
-sed -i '/step3.sh/d' /etc/rc.local
-
-cat >>/etc/rc.local <<EOL
 $WORKING_INSTALLATION_PATH/step4.sh
-EOL
 
-
-# REMOVE ENVIRONMENT CONFIGURATION
-. $WORKING_INSTALLATION_PATH/REMOVE_CONFIGURATION
-
-reboot
-
-# END OF SCRIPT
+# END OF SCRIPT - STEP 3
 

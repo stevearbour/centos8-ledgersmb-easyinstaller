@@ -5,11 +5,10 @@ WORKING_INSTALLATION_PATH="`( cd \"$WORKING_INSTALLATION_PATH\" && pwd )`"
 . $WORKING_INSTALLATION_PATH/CONFIGURATION
 
 clear
-echo "*** PLEASE WAIT - INSTALLATION IN PROGRESS . . ."
 echo " "
-sleep $INSTALLER_SLEEP_ON_BOOT
-echo "*** INSTALLER STEP 6 INITIATED"
+echo "-> INSTALLER STEP 6 INITIATED : LEDGERSMB FINAL PART, UGLIFY-JS, DOJO"
 echo " "
+sleep 3
 
 # LEDGERSMB PART 2
 cd /usr/local/ledgersmb
@@ -35,18 +34,24 @@ systemctl restart postgresql
 systemctl restart httpd
 systemctl restart ledgersmb_starman
 
-# REMOVE /ETC/RC.LOCAL ENTRY 
-sed -i '/step6.sh/d' /etc/rc.local
-
 # REMOVE ENVIRONMENT CONFIGURATION
 . REMOVE_CONFIGURATION
 
+clear
 echo "Installation is (should be) complete"
 echo " "
 echo "Please open a compatible browser such as Mozilla Firefox, and point it to https://$LEDGERSMB_HOSTNAME/setup.pl to start using LedgerSMB"
 echo " "
 echo "This script was written by Steve Arbour"
 echo " "
+echo " "
+echo "***************************************************************************************"
+echo "***************************************************************************************"
+echo "** WARNING THE SYSTEM WILL NOW REBOOT IN 15 SECONDS"
+echo "***************************************************************************************"
+echo "***************************************************************************************"
+sleep 15
+reboot
 
 # END OF SCRIPT
 

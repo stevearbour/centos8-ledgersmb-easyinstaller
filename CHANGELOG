@@ -1,0 +1,12 @@
+version 1.0.1
+- Removed the multiples reboots and only keep one reboot at the end.
+- Added parameters to the command line installer.
+- Added usage help to the command line installer.
+- Updated the README file.
+- Included SELINUX configuration for ledgersmb.
+- Temporary disable selinux until reboot if needed.
+- Temporary disable ipv6 until reboot if needed.
+- Created a CHANGELOG file.
+
+version 1.0.0
+- First beta version.
