@@ -1,12 +1,24 @@
+version 1.0.2
+-   Removed the section of the script that used rc.local since we only 
+    do one reboot, this is not necessary.
+-   Removed an unused line when setting selinux to permissive or disabled.
+-   Added an command line argument for the ledgersmb branch version and 
+    was tested with 1.7 and master, which was 1.8 at the time of the testing.
+-   Removed the multiple script files and made one larger single install.sh file.
+-   Created a display_help function to display help and manage the help message
+    in one single place.
+-   BUGFIX: Help message was not being displayed when wrong/invalid arguments was
+    pass to the installer. 
+
 version 1.0.1
-- Removed the multiples reboots and only keep one reboot at the end.
-- Added parameters to the command line installer.
-- Added usage help to the command line installer.
-- Updated the README file.
-- Included SELINUX configuration for ledgersmb.
-- Temporary disable selinux until reboot if needed.
-- Temporary disable ipv6 until reboot if needed.
-- Created a CHANGELOG file.
+-   Removed the multiples reboots and only keep one reboot at the end.
+-   Added parameters to the command line installer.
+-   Added usage help to the command line installer.
+-   Updated the README file.
+-   Included SELINUX configuration for ledgersmb.
+-   Temporary disable selinux until reboot if needed.
+-   Temporary disable ipv6 until reboot if needed.
+-   Created a CHANGELOG file.
 
 version 1.0.0
-- First beta version.
+-   First beta version.
