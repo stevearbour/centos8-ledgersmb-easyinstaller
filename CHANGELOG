@@ -1,3 +1,7 @@
+version 1.0.3
+-   Added support for the STABLE branch on git.
+-   Made the STABLE branch a default.
+
 version 1.0.2
 -   Removed the section of the script that used rc.local since we only 
     do one reboot, this is not necessary.

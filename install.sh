@@ -10,16 +10,18 @@ function display_help() {
     echo "# "
     echo "# Valid values for <selinux_mode> enforcing, permissive, disabled (Default is: enforcing)"
     echo "# Valid values for <ipv6_mode> enabled, disabled (Default is: disabled)"
-    echo "# Valid values for <ledgersmb_git_branch> 1.7, master (Default is: master)"
+    echo "# Valid values for <ledgersmb_git_branch> 1.7, stable, master (Default is: stable)"
     echo "# "
     echo "# "
     echo "# Examples of use:"
     echo "# "
     echo "# Ex: './install.sh' "
-    echo "# (Would default install with selinux enforcing configured and ipv6 disabled.)"
+    echo "# (Would default install with selinux enforcing configured and ipv6 disabled and "
+    echo "# ledgersmb stable version.)"
     echo "# "
     echo "# Ex: './install.sh disabled enabled master' "
-    echo "# (Would install with selinux disabled and ipv6 enabled and ledgersmb lastest version.)"
+    echo "# (Would install with selinux disabled and ipv6 enabled and ledgersmb master "
+    echo "# branch (development) version.)"
     echo "# "
     echo "######################################################################################"
     echo " "
@@ -40,7 +42,7 @@ then
     else
         display_help
     fi
-    if [ $3 == '1.7' ] || [ $3 == 'master' ] 
+    if [ $3 == '1.7' ] || [ $3 == 'master' ] || [ $3 == 'stable' ] 
     then
         export LEDGERSMB_BRANCHVERSION=$3
     else
@@ -50,7 +52,7 @@ elif [ $# -eq 0 ]
 then
     export LEDGERSMB_SELINUX_MODE=enforcing
     export LEDGERSMB_IPV6=disabled
-    export LEDGERSMB_BRANCHVERSION=master
+    export LEDGERSMB_BRANCHVERSION=stable
 else
     display_help
 fi    

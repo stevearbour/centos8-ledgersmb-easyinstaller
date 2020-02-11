@@ -27,15 +27,17 @@
 #
 # Valid values for <selinux_mode> enforcing, permissive, disabled (Default is: enforcing)
 # Valid values for <ipv6_mode> enabled, disabled (Default is: disabled)
-# Valid values for <ledgersmb_git_branch> 1.7, master (Default is: master)
+# Valid values for <ledgersmb_git_branch> 1.7, stable, master (Default is: stable)
 #
 #
 # Examples of use:
 #
 # Ex: './install.sh'
-# (Would default install with selinux enforcing configured and ipv6 disabled.)
-#
+# (Would default install with selinux enforcing configured and ipv6 disabled and 
+# ledgersmb stable version.)
+# 
 # Ex: './install.sh disabled enabled master'
-# (Would install with selinux disabled and ipv6 enabled and ledgersmb lastest version.)
+# (Would install with selinux disabled and ipv6 enabled and ledgersmb master 
+# branch (development) version.)
 #
 #################################################################################
