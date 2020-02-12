@@ -1,3 +1,16 @@
+version 1.0.4
+-   Added auto-detection of the lastest stable version on a specific branch.
+-   Added Color to the install.sh script.
+-   Added Color to the help section.
+-   Updated the README file.
+-   Added Experimental support for LetEncrypts Dry-Mode in the CONFIGURATION file
+    (This allow to test-run before actually submitting real certificates request)
+    $LEDGERSMB_LETENCRYPTS_DRYRUN.
+-   Redefining STABLE as the lastest stable of the lastest branch.
+-   Added credits to ehuelsmann hasorli dcg Yves.
+-   General Script optimization.
+-   SELinux fix when enforcing.
+
 version 1.0.3
 -   Added support for the STABLE branch on git.
 -   Made the STABLE branch a default.

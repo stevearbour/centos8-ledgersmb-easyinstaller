@@ -1,20 +1,22 @@
-#################################################################################
+##############################################################
 # 
 # CentOS 8 LedgerSMB Easy Installer
 # 
 # By: STEVE ARBOUR 	
+# Special thanks go to: EHUELSMANN, HASORLI, DCG, YVES 
 # License: GNU GENERAL PUBLIC LICENSE, Version 2, June 1991
 # 
-#################################################################################
+##############################################################
 # 
 # STEP REQUIRED: 
 #
-# INSTALL CENTOS 8 - SERVER NO GUI
-# UNPACK THIS INSTALLER
-# READ THIS FILE FOR USAGE SYNTAX.
-# EDIT THE FILE CONFIGURATION
-# MAKE THE INSTALLER EXECUTABLE (chmod ug+x install.sh)
-# MAKE USE OF THE INSTALLER (install.sh)
+# - INSTALL CENTOS 8 - SERVER NO GUI
+# - UNPACK THIS INSTALLER
+# - READ THIS FILE FOR USAGE SYNTAX.
+# - EDIT THE FILE CONFIGURATION
+# - MAKE THE INSTALLER EXECUTABLE (chmod ug+x install.sh)
+# - MAKE USE OF THE INSTALLER (install.sh)
+# 
 # 
 # THIS SCRIPT REQUIRE:
 #
@@ -23,21 +25,6 @@
 # - AN EMAIL ADDRESS FOR LETSENCRYPT TO USE.
 #
 # 
-# Usage: install.sh <selinux_mode> <ipv6_mode> <ledgersmb_git_branch>
+# For usage help and syntax, simply use './install.sh --help'
 #
-# Valid values for <selinux_mode> enforcing, permissive, disabled (Default is: enforcing)
-# Valid values for <ipv6_mode> enabled, disabled (Default is: disabled)
-# Valid values for <ledgersmb_git_branch> 1.7, stable, master (Default is: stable)
-#
-#
-# Examples of use:
-#
-# Ex: './install.sh'
-# (Would default install with selinux enforcing configured and ipv6 disabled and 
-# ledgersmb stable version.)
-# 
-# Ex: './install.sh disabled enabled master'
-# (Would install with selinux disabled and ipv6 enabled and ledgersmb master 
-# branch (development) version.)
-#
-#################################################################################
+##############################################################

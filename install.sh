@@ -2,28 +2,28 @@
 
 function display_help() {
     echo " "
-    echo "######################################################################################"
-    echo "# CentOS 8 - LedgerSMB - Easy Installer "
-    echo "######################################################################################"
-    echo "# "
-    echo "# Usage: install.sh <selinux_mode> <ipv6_mode> <ledgersmb_git_branch>"
-    echo "# "
-    echo "# Valid values for <selinux_mode> enforcing, permissive, disabled (Default is: enforcing)"
-    echo "# Valid values for <ipv6_mode> enabled, disabled (Default is: disabled)"
-    echo "# Valid values for <ledgersmb_git_branch> 1.7, stable, master (Default is: stable)"
-    echo "# "
-    echo "# "
-    echo "# Examples of use:"
-    echo "# "
-    echo "# Ex: './install.sh' "
-    echo "# (Would default install with selinux enforcing configured and ipv6 disabled and "
-    echo "# ledgersmb stable version.)"
-    echo "# "
-    echo "# Ex: './install.sh disabled enabled master' "
-    echo "# (Would install with selinux disabled and ipv6 enabled and ledgersmb master "
-    echo "# branch (development) version.)"
-    echo "# "
-    echo "######################################################################################"
+    echo -e "\e[34m###############################################################################################\e[0m"
+    echo -e "\e[34m#\e[0m \e[91;1mCentOS 8 - LedgerSMB - Easy Installer \e[0m"
+    echo -e "\e[34m###############################################################################################\e[0m"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Usage: install.sh \e[93m<selinux_mode> <ipv6_mode> <ledgersmb_git_branch>\e[0m"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Valid values for <selinux_mode> enforcing, permissive, disabled (Default is: enforcing)"
+    echo -e "\e[34m#\e[0m Valid values for <ipv6_mode> enabled, disabled (Default is: disabled)"
+    echo -e "\e[34m#\e[0m Valid values for <ledgersmb_git_branch> \e[92m1.5\e[0m, \e[92m1.6\e[0m, \e[92m1.7\e[0m, \e[92mstable\e[0m, \e[92mmaster\e[0m (Default is: \e[93mstable\e[0m)"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Examples of use:"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Ex: '\e[93m./install.sh\e[0m' "
+    echo -e "\e[34m#\e[0m (Would default install with selinux enforcing configured and ipv6 disabled and "
+    echo -e "\e[34m#\e[0m ledgersmb 1.7.* stable version.)"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Ex: '\e[93m./install.sh disabled enabled 1.7\e[0m' "
+    echo -e "\e[34m#\e[0m (Would install with selinux disabled and ipv6 enabled and ledgersmb 1.7.x "
+    echo -e "\e[34m#\e[0m lastest stable version.)"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m###############################################################################################\e[0m"
     echo " "
     exit 2
 }
@@ -42,7 +42,7 @@ then
     else
         display_help
     fi
-    if [ $3 == '1.7' ] || [ $3 == 'master' ] || [ $3 == 'stable' ] 
+    if [ $3 == '1.5' ] || [ $3 == '1.6' ] || [ $3 == '1.7' ]  || [ $3 == 'master' ] || [ $3 == 'stable' ]
     then
         export LEDGERSMB_BRANCHVERSION=$3
     else
@@ -59,20 +59,21 @@ fi
 
 
 clear
-echo "**************************************************************************************************"
-echo " CentOS 8 - LedgerSMB - Easy Installer "
-echo "**************************************************************************************************"
+echo -e "\e[34m********************************************************************************\e[0m"
+echo -e " \e[31m\e[1mCentOS 8 - LedgerSMB - Easy Installer\e[0m "
+echo -e "\e[34m********************************************************************************\e[0m"
 echo " "
-echo "Installation script written by Steve Arbour"
-echo "Please report any problem so that I try to improve this installation script."
+echo -e " Installation script written by \e[93mSteve Arbour\e[0m"
+echo -e " Special thanks go to \e[93mehuelsmann hasorli dcg Yves\e[0m"
+echo " Please report any problem so that I try to improve this installation script."
 echo " "
-echo "Tested with latest version of CentOS 8 (4.18.0-147.5.1.el8_1.x86_64)"
-echo "Installation will start in 10 seconds... "
+echo " Tested with CentOS 8.1-1.1911.0.8.el8.x86_64 (4.18.0-147.5.1.el8_1.x86_64)"
+echo " Installation will start in 10 seconds... "
 echo " "
-echo "**************************************************************************************************"
-echo "WARNING : Please do not touch or operate the system during the installation, "
-echo "it should reboot at the end and be ready to access setup.pl "
-echo "**************************************************************************************************"
+echo -e "\e[34m********************************************************************************\e[0m"
+echo -e "\e[31m\e[1m WARNING : Please do not touch or operate the system during the installation, \e[0m"
+echo -e "\e[31m\e[1m it should reboot at the end and be ready to access setup.pl \e[0m"
+echo -e "\e[34m********************************************************************************\e[0m"
 echo " "
 sleep 10
 
@@ -80,94 +81,115 @@ WORKING_INSTALLATION_PATH="`dirname \"$0\"`"
 WORKING_INSTALLATION_PATH="`( cd \"$WORKING_INSTALLATION_PATH\" && pwd )`"
 . $WORKING_INSTALLATION_PATH/CONFIGURATION
 
-
-		
-
 # DISABLE SELINUX IF NECESSARY
 if [ $LEDGERSMB_SELINUX_MODE == 'disabled' ]
 then 
-	echo "SETTING SELINUX TO DISABLED..."
-	sleep 2
+	echo -e "\e[96mSETTING SELINUX TO DISABLED...\e[0m"
+    echo -e " "
+	sleep 1
 	setenforce 0
 	sudo sed -i 's/^SELINUX=.*/SELINUX=disabled/g' /etc/selinux/config
 elif [ $LEDGERSMB_SELINUX_MODE == 'permissive' ]
 then 
-	echo "SETTING SELINUX TO PERMISSIVE..."
-	sleep 2
-	setenforce 0
-	sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
-else
-	echo "CONFIGURING SELINUX TO ALLOW LEDGERSMB..."
-	sleep 2
-	semanage port -a -t http_port_t -p tcp 5762
-	setsebool -P httpd_can_network_connect 1
+	echo -e "\e[96mSETTING SELINUX TO PERMISSIVE...\e[0m"
+    echo -e " "
+    sleep 1
+    
+    dnf -y install selinux-policy-devel policycoreutils-devel
+    sudo sed -i 's/^SELINUX=.*/SELINUX=permissive/g' /etc/selinux/config
+    setenforce 0	
+
+    semanage port -a -t http_port_t -p tcp 80
+    semanage port -a -t http_port_t -p tcp 443
+    semanage port -a -t http_port_t -p tcp 5762
+    setsebool -P httpd_can_network_connect 1
+    setsebool -P domain_kernel_load_modules 1
+elif [ $LEDGERSMB_SELINUX_MODE == 'enforcing' ]
+then 
+	echo -e "\e[96mCONFIGURING SELINUX TO ALLOW LEDGERSMB...\e[0m"
+    echo -e " "
+    sleep 1
+    
+    dnf -y install selinux-policy-devel policycoreutils-devel
+    sudo sed -i 's/^SELINUX=.*/SELINUX=enforcing/g' /etc/selinux/config
+    setenforce 0
+
+    semanage port -a -t http_port_t -p tcp 80
+    semanage port -a -t http_port_t -p tcp 443
+    semanage port -a -t http_port_t -p tcp 5762
+    setsebool -P httpd_can_network_connect 1
+    setsebool -P domain_kernel_load_modules 1
+   
 fi
 
 # MODIFYING GRUB TO DISABLE IPV6 IF NECESSARY
 if [ $LEDGERSMB_IPV6 == 'disabled' ]
-then 
-	echo "DISABLING IPv6..."
+then
+	echo -e "\e[96mDISABLING IPv6...\e[0m"
+    echo -e " "
+    sleep 1
 	sysctl -w net.ipv6.conf.all.disable_ipv6=1
+    echo "1" > /proc/sys/net/ipv6/conf/all/disable_ipv6  
 	printf "\nGRUB_CMDLINE_LINUX=\"$GRUB_CMDLINE_LINUX ipv6.disable=1\"" >> /etc/default/grub
 	grub2-mkconfig -o /boot/grub2/grub.cfg
 	grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
 fi
 
+
+sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
 ### STEP 2 ######################################################################################
 #################################################################################################
 clear
 echo " "
-echo "-> INSTALLER STEP 2 INITIATED : SYSTEM UPDATE"
+echo -e "\e[93mINSTALLER STEP 2 INITIATED : SYSTEM UPDATE\e[0m"
 echo " "
 sleep 3
 
-# UPDATE THE SYSTEM
+echo -e "\e[96mUPDATING THE SYSTEM VIA DNF\e[0m"
+echo " "
+sleep 1
 dnf -y update
 
 
-
+sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
 ### STEP 3 ######################################################################################
 #################################################################################################
 clear
 echo " "
-echo "-> INSTALLER STEP 3 INITIATED : PACKAGES AND NET/DB/LEDGERSMB SERVICE INSTALLATION PART 1"
+echo -e "\e[93mINSTALLER STEP 3 INITIATED : PACKAGES AND NET/DB/LEDGERSMB SERVICE INSTALLATION PART 1\e[0m"
 echo " "
 sleep 3
 
-# FIRST ROUND OF PACKAGES INSTALLATION
+echo -e "\e[96mINSTALLATION OF ADDITIONNAL PACKAGES VIA DNF\e[0m"
+echo " "
+sleep 1
 dnf -y install nano gcc make wget git net-tools cpan cpanminus perl epel-release
 dnf -y install httpd 
 dnf -y install postgresql postgresql-devel postgresql-server
-dnf -y install perl-CGI-Emulate-PSGI perl-CGI-Simple perl-Config-IniFiles
-dnf -y install perl-DBD-Pg perl-DBI perl-DateTime perl-DateTime-Format-Strptime
-dnf -y install perl-Digest-MD5 perl-File-MimeInfo perl-JSON-XS
-dnf -y install perl-Locale-Maketext perl-Locale-Maketext-Lexicon
-dnf -y install perl-Log-Log4perl perl-MIME-Base64 perl-MIME-Lite perl-Math-BigInt-GMP
-dnf -y install perl-Moose perl-Number-Format perl-Plack perl-Template-Toolkit
-dnf -y install perl-namespace-autoclean perl-MooseX-NonMoose perl-XML-Simple
-dnf -y install perl-TeX-Encode texlive
-dnf -y install libpqxx libpqxx-devel
-dnf -y install perl-JSON-MaybeXS
-dnf -y install perl-Starman
-dnf -y install perl-CGI-Emulate-PSGI perl-CGI-Simple perl-Config-IniFiles perl-DBD-Pg perl-DBI perl-DateTime perl-DateTime-Format-Strptime perl-Digest-MD5 perl-File-MimeInfo perl-JSON-XS perl-Locale-Maketext perl-Locale-Maketext-Lexicon perl-Log-Log4perl perl-MIME-Base64 perl-MIME-Lite perl-Math-BigInt-GMP perl-Moose perl-Number-Format perl-Plack perl-Template-Toolkit perl-namespace-autoclean perl-MooseX-NonMoose perl-XML-Simple
-dnf -y install expat-devel
-dnf -y install texlive-latex
+dnf -y install perl-CGI-Emulate-PSGI perl-Config-IniFiles perl-DBD-Pg perl-DBI perl-Digest-MD5 perl-Locale-Maketext perl-Log-Log4perl perl-MIME-Base64 perl-MIME-Lite perl-Math-BigInt-GMP perl-Moose perl-Plack perl-Template-Toolkit perl-MooseX-NonMoose perl-XML-Simple texlive perl-JSON-MaybeXS expat-devel texlive-latex 
 dnf -y install redhat-lsb
 dnf -y install nodejs nodejs-devel nodejs-packaging nodejs-docs
 dnf -y install java-latest-openjdk
 
-# CONFIGURING FIREWALL
+
+echo -e "\e[96mCONFIGURING FIREWALLD\e[0m"
+echo " "
+sleep 1
 firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --zone=public --add-port=443/tcp --permanent
 systemctl restart firewalld
 
-# ACTIVATE HTTPD
+echo -e "\e[96mACTIVATE HTTPD\e[0m"
+echo " "
+sleep 1
 systemctl enable httpd
 systemctl start httpd
 
-# POSTGRESQL
+echo -e "\e[96mPOSTGRESQL\e[0m"
+echo " "
+sleep 1
 systemctl enable postgresql
 postgresql-setup --initdb --unit postgresql
 systemctl start postgresql
@@ -188,25 +210,74 @@ EOL
 
 systemctl restart postgresql
 
-# LEDGERSMB PART 1
-cd /usr/local
-git clone --recurse -b $LEDGERSMB_BRANCHVERSION  https://github.com/ledgersmb/LedgerSMB /usr/local/ledgersmb
+function get_lastest_ledgersmb_stable_version()
+{
+    while read Tag; do
+        STABLE="$Tag"
+    done < <( git tag | grep -v '[a-zA-Z]' | grep '^$1' | sort -V );
+    local LEDGERSMB_STABLE="$STABLE"
+    echo $LEDGERSMB_STABLE
+}
+
+echo -e "\e[96mLEDGERSMB: PART 1\e[0m"
+echo " "
+sleep 1
+cd /usr/local && rm -rf /usr/local/ledgersmb
+git clone https://github.com/ledgersmb/LedgerSMB /usr/local/ledgersmb && cd /usr/local/ledgersmb
+
+if [ $LEDGERSMB_BRANCHVERSION != 'master' ] && [ $LEDGERSMB_BRANCHVERSION != 'stable' ] 
+then
+    LEDGERSMB_VERSION=$(git tag | grep "^$LEDGERSMB_BRANCHVERSION" | grep -v '[a-zA-Z]' | sort -V | tail -n1)
+elif [ $LEDGERSMB_BRANCHVERSION == 'stable' ] 
+then
+    LEDGERSMB_VERSION=$(git tag | grep -v '[a-zA-Z]' | sort -V | tail -n1)
+elif [ LEDGERSMB_VERSION == 'master' ] 
+then
+    LEDGERSMB_VERSION='master'
+fi
+
+echo -e "\e[93mLedgerSMB Version : $LEDGERSMB_VERSION will be installed . . .\e[0m"
+echo " "
+sleep 1
+sleep 3
+git submodule deinit . && git checkout $LEDGERSMB_VERSION && git submodule update --init --recursive
 chown -R apache:apache /usr/local/ledgersmb/UI
-cp /usr/local/ledgersmb/doc/conf/ledgersmb.conf.default /usr/local/ledgersmb/ledgersmb.conf
-cp /usr/local/ledgersmb/doc/conf/systemd/ledgersmb_starman.service /etc/systemd/system/
+
+# REMOVE ANY EXISTING CONFIGURATION FILES AND EXISTING SERVICE SYSTEMD FILE
+rm -rf /etc/systemd/system/ledgersmb_starman.service && rm -rf /usr/local/ledgersmb/ledgersmb.conf
+
+# COPY DEFAULT CONFIGURATION FILE AND SERVICE SYSTEMD FILE FOR THAT BRANCH
+if [ $LEDGERSMB_BRANCHVERSION == "1.5" ]
+then
+    cp /usr/local/ledgersmb/conf/systemd/starman-ledgersmb.service /etc/systemd/system/ledgersmb_starman.service
+    cp /usr/local/ledgersmb/conf/ledgersmb.conf.default /usr/local/ledgersmb/ledgersmb.conf
+elif [ $LEDGERSMB_BRANCHVERSION == "1.6" ]
+then
+    cp /usr/local/ledgersmb/conf/systemd/ledgersmb_starman.service /etc/systemd/system/ledgersmb_starman.service
+    cp /usr/local/ledgersmb/conf/ledgersmb.conf.default /usr/local/ledgersmb/ledgersmb.conf
+elif [ $LEDGERSMB_BRANCHVERSION == "1.7" ]
+then
+    cp /usr/local/ledgersmb/doc/conf/systemd/ledgersmb_starman.service /etc/systemd/system/ledgersmb_starman.service
+    cp /usr/local/ledgersmb/doc/conf/ledgersmb.conf.default /usr/local/ledgersmb/ledgersmb.conf
+else
+    cp /usr/local/ledgersmb/doc/conf/systemd/ledgersmb_starman.service /etc/systemd/system/ledgersmb_starman.service
+    cp /usr/local/ledgersmb/doc/conf/ledgersmb.conf.default /usr/local/ledgersmb/ledgersmb.conf
+fi
 
 
-
+sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
 ### STEP 4 ######################################################################################
 #################################################################################################
 clear
 echo " "
-echo "-> INSTALLER STEP 4 INITIATED : HTTP, HTTPS AND LETENCRYPT"
+echo -e "\e[93mINSTALLER STEP 4 INITIATED : HTTP, HTTPS AND LETENCRYPT\e[0m"
 echo " "
 sleep 3
 
-# HTTPD AND LETSENCRYPT
+echo -e "\e[96mHTTPD AND LETSENCRYPT\e[0m"
+echo " "
+sleep 1
 cat >/etc/httpd/conf.d/ledgersmb.conf <<EOL
 <VirtualHost *:80>
   ServerName $LEDGERSMB_HOSTNAME
@@ -221,10 +292,16 @@ cat >/etc/httpd/conf.d/ledgersmb.conf <<EOL
 </VirtualHost>
 EOL
 
+#Empty any instance of /etc/httpd/conf.d/ledgersmb-le-ssl.conf
+echo " " > /etc/httpd/conf.d/ledgersmb-le-ssl.conf 
+          
 systemctl restart httpd
 
 
-#### 0010 - LET ENCRYPTS PART 1 : 
+
+echo -e "\e[96mLETSENCRYPT: PART 1\e[0m" 
+echo " "
+sleep 1
 dnf -y install mod_ssl openssl yum-utils
 dnf -y install python3-virtualenv python36-devel augeas-libs libffi-devel platform-python-devel python-rpm-macros python3-rpm-generators python3-wheel-wheel
 openssl req -newkey rsa:4096 -x509 -sha256 -days 36500 -nodes -out /etc/pki/tls/certs/localhost.crt -keyout /etc/pki/tls/private/localhost.key -subj "$LEDGERSMB_SSL_PARAMETERS"
@@ -232,12 +309,20 @@ wget https://dl.eff.org/certbot-auto
 sudo mv certbot-auto /usr/local/bin/certbot-auto
 sudo chown root /usr/local/bin/certbot-auto
 sudo chmod 0755 /usr/local/bin/certbot-auto
-sudo /usr/local/bin/certbot-auto --apache -m $LEDGERSMB_LETENCRYPTS_EMAILADDR --agree-tos -n -d $LEDGERSMB_HOSTNAME
+if [ $LEDGERSMB_LETSENCRYPT_DRYRUN -eq 1 ]
+then
+    sudo /usr/local/bin/certbot-auto --dry-run --apache -m $LEDGERSMB_LETENCRYPTS_EMAILADDR --agree-tos -n -d $LEDGERSMB_HOSTNAME 
+else                            
+    sudo /usr/local/bin/certbot-auto --apache -m $LEDGERSMB_LETENCRYPTS_EMAILADDR --agree-tos -n -d $LEDGERSMB_HOSTNAME
+fi
 echo "0 0,12 * * * root python3 -c 'import random; import time; time.sleep(random.random() * 3600)' && /usr/local/bin/certbot-auto renew" | sudo tee -a /etc/crontab > /dev/null
 systemctl restart httpd
 
-#### 0011 - HTTPD PART 3: RESETUP HTTP AND HTTPS
+sleep 60
 
+echo -e "\e[96mHTTPD PART 3: RESETUP HTTP AND HTTPS\e[0m"
+echo " "
+sleep 1
 cat >/etc/httpd/conf.d/ledgersmb.conf <<EOL
 <VirtualHost *:80>
   ServerName $LEDGERSMB_HOSTNAME
@@ -293,18 +378,19 @@ systemctl restart httpd
 
 
 
-
+sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
 ### STEP 5 ######################################################################################
 #################################################################################################
 clear
 echo " "
-echo "-> INSTALLER STEP 5 INITIATED : CPAN PACKAGES AND LEDGERSMB PART 2"
+echo -e "\e[93mINSTALLER STEP 5 INITIATED : CPAN PACKAGES AND LEDGERSMB PART 2\e[0m"
 echo " "
 sleep 3
 
-# CPAN INSTALLATION OF PACKAGES
-
+echo -e "\e[96mCPAN PART 1: CREATION OF A DEFAULT FILE FOR CPAN\e[0m"
+echo " "
+sleep 1
 mkdir ~/.cpan/
 mkdir ~/.cpan/CPAN/
 cat >/root/.cpan/CPAN/MyConfig.pm <<EOL
@@ -380,7 +466,9 @@ cat >/root/.cpan/CPAN/MyConfig.pm <<EOL
 __END__
 EOL
 
-#### 0013 - CPAN - PART 2 - IN ORDER
+echo -e "\e[96mCPAN PART 2: PACKAGES INSTALLATION, IN ORDER\e[0m"
+echo " "
+sleep 1
 cpan install App:Cpan
 cpan install PGObject PGObject::Type::BigFloat Number::Format Config::IniFiles PGObject::Simple
 cpan install MIME::Lite Moose HTTP::Exception PGObject::Simple::Role MooseX::NonMoose File::MimeInfo
@@ -388,22 +476,23 @@ cpan install PGObject::Type::ByteString Plack::Builder::Conditionals Plack::Midd
 cpan install Log::Log4perl Locale::Maketext::Lexicon DateTime::Format::Strptime PGObject::Type::DateTime
 cpan install CGI::Emulate::PSGI CGI::Simple Digest::MD5 Encode File::Temp HTTP::Status List::Util Locale::Country Log::Log4Perl Mime::Base64 Try::Tiny Version::Compare
 cpan install Net::Server XML::Parser XML::SAX::Expat XML::Simple
-cpan install Plack::Middleware::Lint
-cpan install Carp
+cpan install Plack::Middleware::Lint Carp
 
 
 
-
+sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
 ### STEP 6 ######################################################################################
 #################################################################################################
 clear
 echo " "
-echo "-> INSTALLER STEP 6 INITIATED : LEDGERSMB FINAL PART, UGLIFY-JS, DOJO"
+echo -e "\e[93mINSTALLER STEP 6 INITIATED : LEDGERSMB FINAL PART, UGLIFY-JS, DOJO\e[0m"
 echo " "
 sleep 3
 
-# LEDGERSMB PART 2
+echo -e "\e[96mLEDGERSMB\e[0m"
+echo " "
+sleep 1
 cd /usr/local/ledgersmb
 sudo sed -i 's/^WorkingDirectory=.*/WorkingDirectory=\/usr\/local\/ledgersmb/g' /etc/systemd/system/ledgersmb_starman.service
 sudo sed -i 's/^ExecStart=\/usr\/bin\/starman.*/ExecStart=\/usr\/local\/bin\/starman \\/g' /etc/systemd/system/ledgersmb_starman.service
@@ -418,7 +507,22 @@ cpanm --quiet --notest --with-feature=starman --with-feature=latex-pdf-ps --with
 cd /usr/local/ledgersmb/
 make dojo
 
-# END OF INSTALLATION
+
+echo -e "\e[96mSELINUX\e[0m"
+echo " "
+sleep 1
+if [ $LEDGERSMB_SELINUX_MODE == 'enforcing' ]
+then 
+    echo -e "\e[96mCONFIGURING SELINUX TO ALLOW LEDGERSMB...\e[0m"
+    " "
+    sleep 1
+    setenforce 1
+fi
+
+
+echo -e "\e[96mEND OF INSTALLATION\e[0m"
+echo " "
+sleep 1
 systemctl daemon-reload
 systemctl enable postgresql
 systemctl enable httpd
@@ -427,13 +531,20 @@ systemctl restart postgresql
 systemctl restart httpd
 systemctl restart ledgersmb_starman
 
-# REMOVE ENVIRONMENT CONFIGURATION
-. REMOVE_CONFIGURATION
+
+echo -e "\e[96mREMOVING ENVIRONMENT CONFIGURATION\e[0m"
+echo " "
+sleep 1
+. $WORKING_INSTALLATION_PATH/REMOVE_CONFIGURATION
+
+sleep 5
 
 clear
 echo "Installation is (should be) complete"
 echo " "
-echo "Please open a compatible browser such as Mozilla Firefox, and point it to https://$LEDGERSMB_HOSTNAME/setup.pl to start using LedgerSMB"
+echo "Please open a compatible browser such as Mozilla Firefox, "
+echo "and point it to https://$LEDGERSMB_HOSTNAME/setup.pl to start "
+echo "using LedgerSMB after this server have rebooted."
 echo " "
 echo "This script was written by Steve Arbour"
 echo " "
