@@ -480,30 +480,6 @@ cat >/root/.cpan/CPAN/MyConfig.pm <<EOL
 __END__
 EOL
 
-echo -e "\e[96mCPAN PART 2: PACKAGES INSTALLATION, IN ORDER\e[0m"
-echo " "
-sleep 1
-#cpan install App:Cpan
-#cpan install PGObject PGObject::Type::BigFloat Number::Format Config::IniFiles PGObject::Simple
-#cpan install MIME::Lite Moose HTTP::Exception PGObject::Simple::Role MooseX::NonMoose File::MimeInfo
-#cpan install PGObject::Type::ByteString Plack::Builder::Conditionals Plack::Middleware::Pod
-#cpan install Log::Log4perl Locale::Maketext::Lexicon DateTime::Format::Strptime PGObject::Type::DateTime
-#cpan install CGI::Emulate::PSGI CGI::Simple Digest::MD5 Encode File::Temp HTTP::Status List::Util Locale::Country Log::Log4Perl Mime::Base64 Try::Tiny Version::Compare
-#cpan install Net::Server XML::Parser XML::SAX::Expat XML::Simple
-#cpan install Plack::Middleware::Lint Carp
-
-
-#cpan install App:Cpan
-#cpan install PGObject PGObject::Type::BigFloat Number::Format PGObject::Simple
-#cpan install HTTP::Exception PGObject::Simple::Role 
-#cpan install PGObject::Type::ByteString Plack::Builder::Conditionals Plack::Middleware::Pod
-#cpan install Locale::Maketext::Lexicon PGObject::Type::DateTime
-#cpan install CGI::Simple HTTP::Status Locale::Country Version::Compare
-#cpan install XML::SAX::Expat 
-#cpan install Plack::Middleware::Lint
-
-
-
 
 sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
