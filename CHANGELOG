@@ -1,3 +1,13 @@
+version 1.0.5
+-   Enable the CentOS Powertools Repository to access missing packages for an 
+    easy and faster installation.
+-   Added more package installation via DNF from various repos, including the 
+    newly added CentOS Powertools.
+-   Removed the Building of Package via CPAN since it isn't necessary anymore
+    that allow to save lot of time during installation.
+-   Updated the README and Last message of the installation to suggest removing
+    the CONFIGURATION file for security reason.
+
 version 1.0.4
 -   Added auto-detection of the lastest stable version on a specific branch.
 -   Added Color to the install.sh script.

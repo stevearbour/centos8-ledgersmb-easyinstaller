@@ -2,28 +2,32 @@
 
 function display_help() {
     echo " "
-    echo -e "\e[34m###############################################################################################\e[0m"
+    echo -e "\e[34m###############################################################################\e[0m"
     echo -e "\e[34m#\e[0m \e[91;1mCentOS 8 - LedgerSMB - Easy Installer \e[0m"
-    echo -e "\e[34m###############################################################################################\e[0m"
+    echo -e "\e[34m###############################################################################\e[0m"
     echo -e "\e[34m#\e[0m "
     echo -e "\e[34m#\e[0m Usage: install.sh \e[93m<selinux_mode> <ipv6_mode> <ledgersmb_git_branch>\e[0m"
     echo -e "\e[34m#\e[0m "
-    echo -e "\e[34m#\e[0m Valid values for <selinux_mode> enforcing, permissive, disabled (Default is: enforcing)"
-    echo -e "\e[34m#\e[0m Valid values for <ipv6_mode> enabled, disabled (Default is: disabled)"
-    echo -e "\e[34m#\e[0m Valid values for <ledgersmb_git_branch> \e[92m1.5\e[0m, \e[92m1.6\e[0m, \e[92m1.7\e[0m, \e[92mstable\e[0m, \e[92mmaster\e[0m (Default is: \e[93mstable\e[0m)"
+    echo -e "\e[34m#\e[0m Valid values for <selinux_mode> \e[92menforcing\e[0m, \e[92mpermissive\e[0m, \e[92mdisabled\e[0m"
+    echo -e "\e[34m#\e[0m (Default is: \e[93menforcing\e[0m)"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Valid values for <ipv6_mode> \e[92menabled\e[0m, \e[92mdisabled\e[0m"
+    echo -e "\e[34m#\e[0m (Default is: \e[93mdisabled\e[0m)"
+    echo -e "\e[34m#\e[0m "
+    echo -e "\e[34m#\e[0m Valid values for <ledgersmb_git_branch> \e[92m1.5\e[0m, \e[92m1.6\e[0m, \e[92m1.7\e[0m, \e[92mstable\e[0m, \e[92mmaster\e[0m"
+    echo -e "\e[34m#\e[0m (Default is: \e[93mstable\e[0m)"
     echo -e "\e[34m#\e[0m "
     echo -e "\e[34m#\e[0m "
     echo -e "\e[34m#\e[0m Examples of use:"
-    echo -e "\e[34m#\e[0m "
     echo -e "\e[34m#\e[0m Ex: '\e[93m./install.sh\e[0m' "
-    echo -e "\e[34m#\e[0m (Would default install with selinux enforcing configured and ipv6 disabled and "
-    echo -e "\e[34m#\e[0m ledgersmb 1.7.* stable version.)"
+    echo -e "\e[34m#\e[0m (Would default install with selinux enforcing configured and ipv6 disabled "
+    echo -e "\e[34m#\e[0m and ledgersmb 1.7.* stable version.)"
     echo -e "\e[34m#\e[0m "
     echo -e "\e[34m#\e[0m Ex: '\e[93m./install.sh disabled enabled 1.7\e[0m' "
     echo -e "\e[34m#\e[0m (Would install with selinux disabled and ipv6 enabled and ledgersmb 1.7.x "
     echo -e "\e[34m#\e[0m lastest stable version.)"
     echo -e "\e[34m#\e[0m "
-    echo -e "\e[34m###############################################################################################\e[0m"
+    echo -e "\e[34m###############################################################################\e[0m"
     echo " "
     exit 2
 }
@@ -146,6 +150,11 @@ echo -e "\e[93mINSTALLER STEP 2 INITIATED : SYSTEM UPDATE\e[0m"
 echo " "
 sleep 3
 
+echo -e "\e[96mENABLE CENTOS POWERTOOLS REPO\e[0m"
+echo " "
+sleep 1
+sudo sed -i 's/^enabled=0.*/enabled=1/g' /etc/yum.repos.d/CentOS-PowerTools.repo
+
 echo -e "\e[96mUPDATING THE SYSTEM VIA DNF\e[0m"
 echo " "
 sleep 1
@@ -172,7 +181,11 @@ dnf -y install perl-CGI-Emulate-PSGI perl-Config-IniFiles perl-DBD-Pg perl-DBI p
 dnf -y install redhat-lsb
 dnf -y install nodejs nodejs-devel nodejs-packaging nodejs-docs
 dnf -y install java-latest-openjdk
-
+dnf -y install perl-File-MimeInfo 
+dnf -y install perl-Plack-Test   
+dnf -y install perl-DateTime-Format-Strptime
+dnf -y install perl-autobox-List-Util
+dnf -y install perl-Net-Server
 
 echo -e "\e[96mCONFIGURING FIREWALLD\e[0m"
 echo " "
@@ -210,14 +223,6 @@ EOL
 
 systemctl restart postgresql
 
-function get_lastest_ledgersmb_stable_version()
-{
-    while read Tag; do
-        STABLE="$Tag"
-    done < <( git tag | grep -v '[a-zA-Z]' | grep '^$1' | sort -V );
-    local LEDGERSMB_STABLE="$STABLE"
-    echo $LEDGERSMB_STABLE
-}
 
 echo -e "\e[96mLEDGERSMB: PART 1\e[0m"
 echo " "
@@ -264,6 +269,15 @@ else
     cp /usr/local/ledgersmb/doc/conf/ledgersmb.conf.default /usr/local/ledgersmb/ledgersmb.conf
 fi
 
+# IPV6 FIX, CHANGE LOCALHOST TO 127.0.0.1 IN THE SYSTEMD FILE
+# This is required, because otherwise it will default to ::1
+# And we do not want this if we disable IPv6 
+if [ $LEDGERSMB_IPV6 == 'disabled' ]
+then
+    echo -e "\e[96mIPV6 FIX, CHANGE LOCALHOST TO 127.0.0.1 IN THE SYSTEMD FILE\e[0m"
+    echo " "
+    sudo sed -i 's/--listen localhost:5762.*/--listen 127.0.0.1:5762 \\/g' /etc/systemd/system/ledgersmb_starman.service
+fi
 
 sleep $LEDGERSMB_DEBUGGING_DELAY_BTW_STEPS
 #################################################################################################
@@ -469,14 +483,25 @@ EOL
 echo -e "\e[96mCPAN PART 2: PACKAGES INSTALLATION, IN ORDER\e[0m"
 echo " "
 sleep 1
-cpan install App:Cpan
-cpan install PGObject PGObject::Type::BigFloat Number::Format Config::IniFiles PGObject::Simple
-cpan install MIME::Lite Moose HTTP::Exception PGObject::Simple::Role MooseX::NonMoose File::MimeInfo
-cpan install PGObject::Type::ByteString Plack::Builder::Conditionals Plack::Middleware::Pod
-cpan install Log::Log4perl Locale::Maketext::Lexicon DateTime::Format::Strptime PGObject::Type::DateTime
-cpan install CGI::Emulate::PSGI CGI::Simple Digest::MD5 Encode File::Temp HTTP::Status List::Util Locale::Country Log::Log4Perl Mime::Base64 Try::Tiny Version::Compare
-cpan install Net::Server XML::Parser XML::SAX::Expat XML::Simple
-cpan install Plack::Middleware::Lint Carp
+#cpan install App:Cpan
+#cpan install PGObject PGObject::Type::BigFloat Number::Format Config::IniFiles PGObject::Simple
+#cpan install MIME::Lite Moose HTTP::Exception PGObject::Simple::Role MooseX::NonMoose File::MimeInfo
+#cpan install PGObject::Type::ByteString Plack::Builder::Conditionals Plack::Middleware::Pod
+#cpan install Log::Log4perl Locale::Maketext::Lexicon DateTime::Format::Strptime PGObject::Type::DateTime
+#cpan install CGI::Emulate::PSGI CGI::Simple Digest::MD5 Encode File::Temp HTTP::Status List::Util Locale::Country Log::Log4Perl Mime::Base64 Try::Tiny Version::Compare
+#cpan install Net::Server XML::Parser XML::SAX::Expat XML::Simple
+#cpan install Plack::Middleware::Lint Carp
+
+
+#cpan install App:Cpan
+#cpan install PGObject PGObject::Type::BigFloat Number::Format PGObject::Simple
+#cpan install HTTP::Exception PGObject::Simple::Role 
+#cpan install PGObject::Type::ByteString Plack::Builder::Conditionals Plack::Middleware::Pod
+#cpan install Locale::Maketext::Lexicon PGObject::Type::DateTime
+#cpan install CGI::Simple HTTP::Status Locale::Country Version::Compare
+#cpan install XML::SAX::Expat 
+#cpan install Plack::Middleware::Lint
+
 
 
 
@@ -532,28 +557,29 @@ systemctl restart httpd
 systemctl restart ledgersmb_starman
 
 
-echo -e "\e[96mREMOVING ENVIRONMENT CONFIGURATION\e[0m"
-echo " "
-sleep 1
-. $WORKING_INSTALLATION_PATH/REMOVE_CONFIGURATION
-
-sleep 5
-
 clear
-echo "Installation is (should be) complete"
+echo " Installation is (should be) complete"
 echo " "
-echo "Please open a compatible browser such as Mozilla Firefox, "
-echo "and point it to https://$LEDGERSMB_HOSTNAME/setup.pl to start "
-echo "using LedgerSMB after this server have rebooted."
-echo " "
-echo "This script was written by Steve Arbour"
+echo " Please open a compatible browser such as Mozilla Firefox, "
+echo -e " and point it to \e[93mhttps://$LEDGERSMB_HOSTNAME/setup.pl\e[0m to start "
+echo " using LedgerSMB after this server have rebooted."
 echo " "
 echo " "
-echo "***************************************************************************************"
-echo "***************************************************************************************"
-echo "** WARNING THE SYSTEM WILL NOW REBOOT IN 15 SECONDS"
-echo "***************************************************************************************"
-echo "***************************************************************************************"
+echo " "
+echo -e " \e[31m*** SECURITY WARNING ***\e[0m"
+echo -e " \e[93mOnce the installer finish and you have tested the \e[0m" 
+echo -e " \e[93minstallation, be sure to remove the CONFIGURATION file \e[0m"
+echo -e " \e[93mbecause it contain your LSMB_DBADMIN password used for \e[0m" 
+echo -e " \e[93minitial installation\e[0m"
+echo " "
+echo " "
+echo -e " This script was written by \e[93mSteve Arbour\e[0m"
+echo " "
+echo " "
+echo -e " ******************************************************"
+echo -e " ** \e[31mWARNING THE SYSTEM WILL NOW REBOOT IN 15 SECONDS\e[0m **"
+echo -e " ******************************************************"
+. $WORKING_INSTALLATION_PATH/REMOVE_CONFIGURATION    
 sleep 15
 reboot
 

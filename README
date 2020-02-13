@@ -26,5 +26,12 @@
 #
 # 
 # For usage help and syntax, simply use './install.sh --help'
-#
+# 
+# 
+# *** SECURITY WARNING ***: 
+# Once the installer finish and you have tested the 
+# installation, be sure to remove the CONFIGURATION file
+# because it contain your LSMB_DBADMIN password used for 
+# initial installation
+# 
 ##############################################################
