@@ -1,4 +1,14 @@
-version 1.0.5
+Version 1.1.0
+- 	Major overhaul of the script code, optimization, better integration.
+- 	Added new set of command line arguments to allow a fully customizable 
+	and perhaps scriptable installation
+-	Updated the README and the help section
+- 	Improved compatibility when installing 1.5/1.6
+
+New branch 1.1.x
+
+
+Version 1.0.5
 -   Enable the CentOS Powertools Repository to access missing packages for an 
     easy and faster installation.
 -   Added more package installation via DNF from various repos, including the 
@@ -8,7 +18,7 @@ version 1.0.5
 -   Updated the README and Last message of the installation to suggest removing
     the CONFIGURATION file for security reason.
 
-version 1.0.4
+Version 1.0.4
 -   Added auto-detection of the lastest stable version on a specific branch.
 -   Added Color to the install.sh script.
 -   Added Color to the help section.
@@ -21,11 +31,11 @@ version 1.0.4
 -   General Script optimization.
 -   SELinux fix when enforcing.
 
-version 1.0.3
+Version 1.0.3
 -   Added support for the STABLE branch on git.
 -   Made the STABLE branch a default.
 
-version 1.0.2
+Version 1.0.2
 -   Removed the section of the script that used rc.local since we only 
     do one reboot, this is not necessary.
 -   Removed an unused line when setting selinux to permissive or disabled.
@@ -37,7 +47,7 @@ version 1.0.2
 -   BUGFIX: Help message was not being displayed when wrong/invalid arguments was
     pass to the installer. 
 
-version 1.0.1
+Version 1.0.1
 -   Removed the multiples reboots and only keep one reboot at the end.
 -   Added parameters to the command line installer.
 -   Added usage help to the command line installer.
@@ -47,5 +57,5 @@ version 1.0.1
 -   Temporary disable ipv6 until reboot if needed.
 -   Created a CHANGELOG file.
 
-version 1.0.0
+Version 1.0.0
 -   First beta version.

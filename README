@@ -27,11 +27,32 @@
 # 
 # For usage help and syntax, simply use './install.sh --help'
 # 
-# 
 # *** SECURITY WARNING ***: 
 # Once the installer finish and you have tested the 
 # installation, be sure to remove the CONFIGURATION file
 # because it contain your LSMB_DBADMIN password used for 
 # initial installation
 # 
+##############################################################
+#
+# COMMAND LINE ARGUMENTS:
+#
+# --selinux-mode=  enforcing, permissive, disabled
+# --skip-selinux=  yes, no, 1, 0
+# --ipv6=  enabled, disabled
+# --branch=  1.5, 1.6, 1.7, stable, master
+# --update-all=  yes, no, 1, 0
+# --reboot-after-install=  yes, no, 1, 0
+# --skip-httpd-install=  yes, no, 1, 0
+# --skip-httpd-config=  yes, no, 1, 0
+# --httpd-enable-http=  yes, no, 1, 0
+# --httpd-enable-https=  yes, no, 1, 0
+# --skip-letsencrypt-install=  yes, no, 1, 0
+# --skip-letsencrypt-config=  yes, no, 1, 0
+# --skip-postgresql-install=  yes, no, 1, 0
+# --skip-postgresql-config=  yes, no, 1, 0
+# --skip-firewall-port80=  yes, no, 1, 0
+# --skip-firewall-port443=  yes, no, 1, 0
+# --skip-cpan-config=  yes, no, 1, 0
+#
 ##############################################################
