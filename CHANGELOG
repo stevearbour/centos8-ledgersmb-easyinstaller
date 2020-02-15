@@ -1,3 +1,6 @@
+Version 1.1.1
+-	Fixed a bug with the arguments processing.
+
 Version 1.1.0
 - 	Major overhaul of the script code, optimization, better integration.
 - 	Added new set of command line arguments to allow a fully customizable 

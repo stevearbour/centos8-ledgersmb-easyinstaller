@@ -1,6 +1,26 @@
 #!/bin/bash
 
-
+function display_arguments() 
+{
+	echo "LEDGERSMB_SELINUX_MODE=$LEDGERSMB_SELINUX_MODE"
+	echo "LEDGERSMB_SKIP_SELINUX=$LEDGERSMB_SKIP_SELINUX"
+	echo "LEDGERSMB_IPV6=$LEDGERSMB_IPV6"
+	echo "LEDGERSMB_SKIP_IPV6=$LEDGERSMB_SKIP_IPV6"
+	echo "LEDGERSMB_BRANCHVERSION=$LEDGERSMB_BRANCHVERSION"
+	echo "LEDGERSMB_UPDATE_ALL=$LEDGERSMB_UPDATE_ALL"
+	echo "LEDGERSMB_REBOOT_AFTER_INSTALL=$LEDGERSMB_REBOOT_AFTER_INSTALL"
+	echo "LEDGERSMB_SKIP_HTTPD_INSTALL=$LEDGERSMB_SKIP_HTTPD_INSTALL"
+	echo "LEDGERSMB_SKIP_HTTPD_CONFIG=$LEDGERSMB_SKIP_HTTPD_CONFIG"
+	echo "LEDGERSMB_HTTPD_ENABLE_HTTP=$LEDGERSMB_HTTPD_ENABLE_HTTP"
+	echo "LEDGERSMB_HTTPD_ENABLE_HTTPS=$LEDGERSMB_HTTPD_ENABLE_HTTPS"
+	echo "LEDGERSMB_SKIP_LETSENCRYPT_INSTALL=$LEDGERSMB_SKIP_LETSENCRYPT_INSTALL"
+	echo "LEDGERSMB_SKIP_LETSENCRYPT_CONFIG=$LEDGERSMB_SKIP_LETSENCRYPT_CONFIG"
+	echo "LEDGERSMB_SKIP_POSTGRESQL_INSTALL=$LEDGERSMB_SKIP_POSTGRESQL_INSTALL"
+	echo "LEDGERSMB_SKIP_POSTGRESQL_CONFIG=$LEDGERSMB_SKIP_POSTGRESQL_CONFIG"
+	echo "LEDGERSMB_SKIP_FIREWALL_PORT80=$LEDGERSMB_SKIP_FIREWALL_PORT80"
+	echo "LEDGERSMB_SKIP_FIREWALL_PORT443=$LEDGERSMB_SKIP_FIREWALL_PORT443"
+	echo "LEDGERSMB_SKIP_CPAN_CONFIG=$LEDGERSMB_SKIP_CPAN_CONFIG"
+}
 function display_help() 
 {
 	S0="\e[0m"
@@ -127,77 +147,79 @@ WORKING_INSTALLATION_PATH="`( cd \"$WORKING_INSTALLATION_PATH\" && pwd )`"
 # Command line arguments
 while test $# -gt 0
 do
+
+	element_str="$1"
+	element_delimiter="="
+	s=$element_str$element_delimiter
+	element_array=();
+	while [[ $s ]]; do
+		element_array+=( "${s%%"$element_delimiter"*}" );
+		s=${s#*"$element_delimiter"};
+	done;
+	declare -p element_array
+	
     if [[ "$1" =~ $regex_selinux_mode ]]; then
-        LEDGERSMB_SELINUX_MODE="$1"
+        LEDGERSMB_SELINUX_MODE="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_skip_selinux ]]; then
-        LEDGERSMB_SKIP_SELINUX="$1"
+        LEDGERSMB_SKIP_SELINUX="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_ipv6 ]]; then
-        LEDGERSMB_IPV6="$1"
+        LEDGERSMB_IPV6="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_skip_ipv6 ]]; then
-        LEDGERSMB_SKIP_IPV6="$1"
+        LEDGERSMB_SKIP_IPV6="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_branch ]]; then
-		branch_str="$1"
-		branch_delimiter="="
-		s=$branch_str$branch_delimiter
-		branch_array=();
-		while [[ $s ]]; do
-			branch_array+=( "${s%%"$branch_delimiter"*}" );
-			s=${s#*"$branch_delimiter"};
-		done;
-		declare -p branch_array	
-		if [ "${branch_array[1]}" == "1.5" ]; then 
+		if [ "${element_array[1]}" == "1.5" ]; then 
 			LEDGERSMB_BRANCHVERSION="1.5"
-		elif [ "${branch_array[1]}" == "1.6" ]; then 
+		elif [ "${element_array[1]}" == "1.6" ]; then 
 			LEDGERSMB_BRANCHVERSION="1.6"			
-		elif [ "${branch_array[1]}" == "1.7" ]; then 
+		elif [ "${element_array[1]}" == "1.7" ]; then 
 			LEDGERSMB_BRANCHVERSION="1.7"			
-		elif [ "${branch_array[1]}" == "master" ]; then 
+		elif [ "${element_array[1]}" == "master" ]; then 
 			LEDGERSMB_BRANCHVERSION="master"			
-		elif [ "${branch_array[1]}" == "stable" ]; then 
+		elif [ "${element_array[1]}" == "stable" ]; then 
 			LEDGERSMB_BRANCHVERSION="stable"
 		fi
 	elif [[ "$1" =~ $regex_update_all ]]; then
-        LEDGERSMB_UPDATE_ALL="$1"
+        LEDGERSMB_UPDATE_ALL="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_reboot_after_install ]]; then
-        LEDGERSMB_REBOOT_AFTER_INSTALL="$1"
+        LEDGERSMB_REBOOT_AFTER_INSTALL="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_httpd_install ]]; then
-        LEDGERSMB_SKIP_HTTPD_INSTALL="$1"
+        LEDGERSMB_SKIP_HTTPD_INSTALL="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_httpd_config ]]; then
-        LEDGERSMB_SKIP_HTTPD_CONFIG="$1"		
+        LEDGERSMB_SKIP_HTTPD_CONFIG="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_httpd_enable_http ]]; then
-        LEDGERSMB_HTTPD_ENABLE_HTTP="$1"		
+        LEDGERSMB_HTTPD_ENABLE_HTTP="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_httpd_enable_https ]]; then
-        LEDGERSMB_HTTPD_ENABLE_HTTPS="$1"		
+        LEDGERSMB_HTTPD_ENABLE_HTTPS="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_skip_letsencrypt_install ]]; then
-        LEDGERSMB_SKIP_LETSENCRYPT_INSTALL="$1"
+        LEDGERSMB_SKIP_LETSENCRYPT_INSTALL="${element_array[1]}"
 		
     elif [[ "$1" =~ $regex_skip_letsencrypt_config ]]; then
-        LEDGERSMB_SKIP_LETSENCRYPT_CONFIG="$1"		
+        LEDGERSMB_SKIP_LETSENCRYPT_CONFIG="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_postgresql_install ]]; then
-        LEDGERSMB_SKIP_POSTGRESQL_INSTALL="$1"		
+        LEDGERSMB_SKIP_POSTGRESQL_INSTALL="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_postgresql_config ]]; then
-        LEDGERSMB_SKIP_POSTGRESQL_CONFIG="$1"				
+        LEDGERSMB_SKIP_POSTGRESQL_CONFIG="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_firewall_port80 ]]; then
-        LEDGERSMB_SKIP_FIREWALL_PORT80="$1"
+        LEDGERSMB_SKIP_FIREWALL_PORT80="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_firewall_port443 ]]; then
-        LEDGERSMB_SKIP_FIREWALL_PORT443="$1"
+        LEDGERSMB_SKIP_FIREWALL_PORT443="${element_array[1]}"
 		
 	elif [[ "$1" =~ $regex_skip_cpan_config ]]; then
-        LEDGERSMB_SKIP_CPAN_CONFIG="$1"				
+        LEDGERSMB_SKIP_CPAN_CONFIG="${element_array[1]}"
 		
     else
         display_help
@@ -206,6 +228,7 @@ do
 	shift
 done
  
+display_arguments
 
 if [[ "$LEDGERSMB_SKIP_SELINUX" =~ $regex_no ]]; then 
 	if [ $LEDGERSMB_SELINUX_MODE == 'disabled' ]; then 
